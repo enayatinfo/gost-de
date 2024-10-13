@@ -1,17 +1,18 @@
 # Dockerfile for Target Server
 
-FROM golang:alpine AS builder
-
-# Install necessary packages
-RUN apk add --no-cache git
-
-# Download and build gost
-RUN bash <(curl -fsSL https://github.com/go-gost/gost/raw/master/install.sh) --install
+FROM gogost/gost
 
 # Set default environment variables
-# ENV SOCKS_PORT=1080
-# ENV SOCKS_USER=user
-# ENV SOCKS_PASS=pass
+ENV SOCKS_PORT=1080
+ENV SOCKS_USER=user
+ENV SOCKS_PASS=pass
 
+RUN mkdir -p /etc/gost && \
+    sh -c 'echo "{ \
+        \"ServeNodes\": [ \
+            \"socks5://$SOCKS_USER:$SOCKS_PASS@:$SOCKS_PORT\" \
+        ] \
+    }" > /etc/gost/gost.json'
+EXPOSE ${SOCKS_PORT}
 # Start gost as a SOCKS5 proxy using environment variables
-CMD ["sh", "-c", "gost -L=socks5://$SOCKS_USER:$SOCKS_PASS@:$SOCKS_PORT"]
+CMD ["gost", "-C", "/etc/gost/gost.json"]
