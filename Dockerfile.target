@@ -1,4 +1,4 @@
-# Dockerfile for Germany Server
+# Dockerfile for Target Server
 
 FROM golang:alpine AS builder
 
