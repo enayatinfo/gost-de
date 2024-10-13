@@ -1,0 +1,19 @@
+# Dockerfile for relay Server
+
+FROM golang:alpine AS builder
+
+# Install necessary packages
+RUN apk add --no-cache git
+
+# Download and build gost
+RUN go install github.com/ginuerzh/gost/cmd/gost@latest
+
+# Set default environment variables
+ENV SOCKS_PORT=1080
+ENV T_PROXY_USER=user
+ENV T_PROXY_PASS=pass
+ENV T_IP=ip_of_T
+ENV T_PORT=1080
+
+# Start gost as a SOCKS5 proxy and forward traffic to T using environment variables
+CMD ["sh", "-c", "gost -L=socks5://:$SOCKS_PORT -F=socks5://$T_PROXY_USER:$T_PROXY_PASS@$T_IP:$T_PORT"]
