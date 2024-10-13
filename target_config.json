@@ -1,43 +1,31 @@
 {
   "services": [
     {
-      "name": "reverse_proxy",
-      "type": "http",
+      "name": "http",
       "addr": ":80",
       "handler": {
-        "type": "auto",
-        "routes": [
+        "type": "tcp",
+        "metadata": {
+          "sniffing": true
+        }
+      },
+      "listener": {
+        "type": "tcp"
+      },
+      "forwarder": {
+        "nodes": [
           {
-            "path": "/api",
-            "handler": {
-              "type": "forward",
-              "targets": [
-                {
-                  "addr": "127.0.0.1:81"
-                }
-              ]
+            "name": "target-api",
+            "addr": "127.0.0.1:81",
+            "filter": {
+              "path": "/"
             }
           },
           {
-            "path": "/s",
-            "handler": {
-              "type": "forward",
-              "targets": [
-                {
-                  "addr": "127.0.0.1:82"
-                }
-              ]
-            }
-          },
-          {
-            "path": "/h",
-            "handler": {
-              "type": "forward",
-              "targets": [
-                {
-                  "addr": "127.0.0.1:83"
-                }
-              ]
+            "name": "target-1",
+            "addr": "127.0.0.1:81",
+            "filter": {
+              "path": "/test"
             }
           }
         ]
@@ -46,7 +34,7 @@
   ],
   "api": {
     "addr": ":81",
-    "pathPrefix": "/api",
+    "pathPrefix": "/",
     "accesslog": true,
     "auth": {
       "username": "api_user",
