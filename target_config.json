@@ -4,13 +4,13 @@
       "name": "http",
       "addr": ":80",
       "handler": {
-        "type": "tcp",
+        "type": "http",
         "metadata": {
           "sniffing": true
         }
       },
       "listener": {
-        "type": "tcp"
+        "type": "http"
       },
       "forwarder": {
         "nodes": [
