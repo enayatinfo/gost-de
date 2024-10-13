@@ -1,42 +1,13 @@
-# Dockerfile for Target Server
-
 FROM gogost/gost
 
 # Set default environment variables
 ENV API_USER=api_user
 ENV API_PASS=api_pass
 
-# Create GOST configuration with reverse proxy and API settings
-RUN mkdir -p /etc/gost && \
-    sh -c 'echo "{ \
-      \"services\": [ \
-        { \
-          \"name\": \"reverse_proxy\", \
-          \"type\": \"http\", \
-          \"addr\": \":80\", \
-          \"handler\": { \
-            \"type\": \"auto\", \
-            \"routes\": [ \
-              { \"path\": \"/api\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:81\api" }] } }, \
-              { \"path\": \"/s\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:82\" }] } }, \
-              { \"path\": \"/h\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:83\" }] } } \
-            ] \
-          } \
-        } \
-      ], \
-      \"api\": { \
-        \"addr\": \":81\", \
-        \"pathPrefix\": \"/api\", \
-        \"accesslog\": true, \
-        \"auth\": { \
-          \"username\": \"$API_USER\", \
-          \"password\": \"$API_PASS\" \
-        }, \
-        \"auther\": \"auther-0\" \
-      } \
-    }" > /etc/gost/gost.json'
+# Create GOST configuration file
+COPY target_config.json /etc/gost/gost.json
 
-# Expose port 80 for the reverse proxy
+# Expose ports for the services
 EXPOSE 80
 
 # Start gost with the custom configuration
