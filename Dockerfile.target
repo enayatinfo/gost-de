@@ -32,10 +32,10 @@ RUN mkdir -p /etc/gost && \
           \"password\": \"$API_PASS\" \
         }, \
         \"auther\": \"auther-0\" \
-      }" > /etc/gost/gost.yaml'
+      }" > /etc/gost/gost.json'
 
 # Expose ports for the services
 EXPOSE 80
 
 # Start gost with the custom configuration
-CMD ["gost", "-C", "/etc/gost/gost.yaml"]
+CMD ["gost", "-C", "/etc/gost/gost.json"]
