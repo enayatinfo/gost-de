@@ -1,0 +1,57 @@
+{
+  "services": [
+    {
+      "name": "reverse_proxy",
+      "type": "http",
+      "addr": ":80",
+      "handler": {
+        "type": "auto",
+        "routes": [
+          {
+            "path": "/api",
+            "handler": {
+              "type": "forward",
+              "targets": [
+                {
+                  "addr": "127.0.0.1:81"
+                }
+              ]
+            }
+          },
+          {
+            "path": "/s",
+            "handler": {
+              "type": "forward",
+              "targets": [
+                {
+                  "addr": "127.0.0.1:82"
+                }
+              ]
+            }
+          },
+          {
+            "path": "/h",
+            "handler": {
+              "type": "forward",
+              "targets": [
+                {
+                  "addr": "127.0.0.1:83"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "api": {
+    "addr": ":81",
+    "pathPrefix": "/api",
+    "accesslog": true,
+    "auth": {
+      "username": "api_user",
+      "password": "api_pass"
+    },
+    "auther": "auther-0"
+  }
+}
