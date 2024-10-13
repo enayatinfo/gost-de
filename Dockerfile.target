@@ -18,7 +18,7 @@ RUN mkdir -p /etc/gost && \
             \"routes\": [ \
               { \"path\": \"/api\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:81\" }] } }, \
               { \"path\": \"/s\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:82\" }] } }, \
-              { \"path\": \"/h\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:82\" }] } } \
+              { \"path\": \"/h\", \"handler\": { \"type\": \"forward\", \"targets\": [{ \"addr\": \"127.0.0.1:83\" }] } } \
             ] \
           } \
         } \
