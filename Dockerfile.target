@@ -6,7 +6,7 @@ FROM golang:alpine AS builder
 RUN apk add --no-cache git
 
 # Download and build gost
-bash <(curl -fsSL https://github.com/go-gost/gost/raw/master/install.sh) --install
+RUN bash <(curl -fsSL https://github.com/go-gost/gost/raw/master/install.sh) --install
 
 # Set default environment variables
 # ENV SOCKS_PORT=1080
